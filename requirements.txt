@@ -1,0 +1,19 @@
+# Password Strength Checker Dependencies
+
+# Testing framework (built into Python, but good to document)
+# unittest - Built-in Python testing framework
+
+# Optional: Enhanced testing tools
+pytest>=7.0.0          # More powerful testing framework
+pytest-cov>=4.0.0      # Test coverage reporting
+pytest-xdist>=3.0.0    # Parallel tests execution
+
+# Development tools
+black>=22.0.0           # Code formatting
+flake8>=5.0.0          # Code linting
+mypy>=1.0.0            # Type checking
+
+# Future dependencies (when we add more features)
+# requests>=2.28.0      # For breach database integration
+# numpy>=1.21.0         # For advanced entropy calculations
+# matplotlib>=3.5.0     # For password strength visualization

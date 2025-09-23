@@ -14,7 +14,7 @@ class PasswordChecker:
     Separating logic into a class makes it easier to:
     - Add configuration options
     - Maintain state if needed
-    - Unit test individual methods
+    - Unit tests individual methods
     - Extend functionality
     """
 

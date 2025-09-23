@@ -107,7 +107,18 @@ password-strength-checker/
 ### Running Tests
 
 ```bash
+# Simple run
 python3 -m pytest tests/
+```
+
+```bash
+# With coverage report
+python3 -m pytest tests/ --cov=src --cov-report=html
+```
+
+```bash
+# Run specific test
+python3 -m pytest tests/test_password_checker.py::TestPasswordChecker::test_analyze_length_excellent -v
 ```
 
 ### Code Style
