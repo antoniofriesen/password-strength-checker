@@ -1,101 +1,143 @@
 """
-Password Strength Checker - Initial Version
-Cybersecurity Learning Project
+Password Strength Checker - Main Application
+Entry point for the password strength checking application.
 
-Starting simple: a function that analyzes basic password criteria
-and returns whether it's weak, medium, or strong.
+This file handles user interaction and delegates password analysis
+to the specialized PasswordChecker class.
 """
 
+from password_checker import PasswordChecker
 
-def check_password_strength(password):
+
+class PasswordStrengthApp:
     """
-    Analyzes password strength with basic criteria.
+    Main application class for the password strength checker.
 
-    Args:
-        password (str): The password to be analyzed
-
-    Returns:
-        tuple: (strength, score, explanation)
+    Handles user interface and coordinates with the PasswordChecker.
+    Separating UI from logic makes the code more maintainable.
     """
 
-    score = 0
-    feedback = []
+    def __init__(self):
+        """Initialize the application with a password checker instance."""
+        self.checker = PasswordChecker()
 
-    # Criterion 1: Length
-    if len(password) >= 12:
-        score += 3
-        feedback.append("✅ Excellent length (12+ characters)")
-    elif len(password) >= 8:
-        score += 2
-        feedback.append("✅ Good length (8+ characters)")
-    elif len(password) >= 6:
-        score += 1
-        feedback.append("⚠️  Acceptable length, but could be longer")
-    else:
-        feedback.append("❌ Too short! Use at least 6 characters")
+    def display_header(self):
+        """Display the application header."""
+        print("=" * 50)
+        print("         PASSWORD STRENGTH CHECKER")
+        print("=" * 50)
+        print("Type 'exit' to quit")
+        print("Type 'help' for more information\n")
 
-    # Criterion 2: Lowercase letters
-    if any(c.islower() for c in password):
-        score += 1
-        feedback.append("✅ Contains lowercase letters")
-    else:
-        feedback.append("❌ Add lowercase letters (a-z)")
+    def display_help(self):
+        """Display help information about password criteria."""
+        print("\n" + "=" * 40)
+        print("PASSWORD STRENGTH CRITERIA:")
+        print("=" * 40)
+        print("📏 Length:")
+        print("   • 12+ characters = 3 points (Excellent)")
+        print("   • 8-11 characters = 2 points (Good)")
+        print("   • 6-7 characters = 1 point (Acceptable)")
+        print("   • <6 characters = 0 points (Too short)")
+        print("\n🔤 Character Types (1 point each):")
+        print("   • Lowercase letters (a-z)")
+        print("   • Uppercase letters (A-Z)")
+        print("   • Numbers (0-9)")
+        print("   • Special characters (2 points)")
+        print("\n💪 Strength Levels:")
+        print("   • 7-8 points = STRONG")
+        print("   • 4-6 points = MEDIUM")
+        print("   • 0-3 points = WEAK")
+        print("=" * 40 + "\n")
 
-    # Criterion 3: Uppercase letters
-    if any(c.isupper() for c in password):
-        score += 1
-        feedback.append("✅ Contains uppercase letters")
-    else:
-        feedback.append("❌ Add uppercase letters (A-Z)")
+    def display_analysis_results(self, password, strength, score, feedback):
+        """
+        Display the password analysis results in a formatted way.
 
-    # Criterion 4: Numbers
-    if any(c.isdigit() for c in password):
-        score += 1
-        feedback.append("✅ Contains numbers")
-    else:
-        feedback.append("❌ Add numbers (0-9)")
+        Args:
+            password (str): The analyzed password (for length info only)
+            strength (str): Strength level (WEAK/MEDIUM/STRONG)
+            score (int): Numeric score
+            feedback (list): List of feedback messages
+        """
+        print(f"\n{'='*50}")
+        print(f"PASSWORD ANALYSIS RESULTS")
+        print(f"{'='*50}")
+        print(f"Password length: {len(password)} characters")
+        print(f"Strength level: {strength}")
+        print(f"Total score: {score}/8 points")
+        print(f"\nDetailed feedback:")
 
-    # Criterion 5: Special characters
-    special_chars = "!@#$%^&*()_+-=[]{}|;:,.<>?"
-    if any(c in special_chars for c in password):
-        score += 2
-        feedback.append("✅ Contains special characters")
-    else:
-        feedback.append("❌ Add special characters (!@#$%^&*)")
+        for item in feedback:
+            print(f"  {item}")
 
-    if score >= 7:
-        strength = "STRONG"
-    elif score >= 4:
-        strength = "MEDIUM"
-    else:
-        strength = "WEAK"
+        # Add security tip based on strength
+        print(f"\n💡 Security tip:")
+        if strength == "WEAK":
+            print("   This password could be cracked quickly. Consider using")
+            print("   a longer password with mixed character types.")
+        elif strength == "MEDIUM":
+            print("   This password is decent but could be stronger.")
+            print("   Consider adding more characters or special symbols.")
+        else:
+            print("   This is a strong password! Good security practice.")
 
-    return strength, score, feedback
+        print("=" * 50)
+
+    def get_user_input(self):
+        """
+        Get password input from user with proper prompting.
+
+        Returns:
+            str: User input (password or command)
+        """
+        return input("Enter a password to analyze: ").strip()
+
+    def run(self):
+        """
+        Main application loop.
+
+        Handles user interaction, input processing, and result display.
+        """
+        self.display_header()
+
+        while True:
+            user_input = self.get_user_input()
+
+            # Handle exit command
+            if user_input.lower() == 'exit':
+                print("\nThank you for using Password Strength Checker! 👋")
+                print("Remember: Strong passwords protect your digital life!")
+                break
+
+            # Handle help command
+            elif user_input.lower() == 'help':
+                self.display_help()
+                continue
+
+            # Handle empty input
+            elif not user_input:
+                print("⚠️  Please enter a password to analyze.\n")
+                continue
+
+            # Analyze the password
+            try:
+                strength, score, feedback = self.checker.check_password_strength(user_input)
+                self.display_analysis_results(user_input, strength, score, feedback)
+
+            except Exception as e:
+                print(f"❌ An error occurred during analysis: {e}")
+                print("Please try again with a different password.\n")
 
 
 def main():
     """
-    Main function - simple interface for testing
+    Entry point of the application.
+
+    Creates and runs the main application instance.
     """
-    print("=== PASSWORD STRENGTH CHECKER ===")
-    print("Type 'exit' to quit\n")
-
-    while True:
-        password = input("Enter a password to analyze: ")
-
-        if password.lower() == 'exit':
-            print("Goodbye! 👋")
-            break
-
-        strength, score, feedback = check_password_strength(password)
-
-        print(f"\n--- PASSWORD ANALYSIS ---")
-        print(f"Strength: {strength}")
-        print(f"Score: {score}/8 points")
-        print(f"\nDetails:")
-        for item in feedback:
-            print(f"  {item}")
-        print("-" * 40)
+    app = PasswordStrengthApp()
+    app.run()
 
 
 if __name__ == "__main__":
