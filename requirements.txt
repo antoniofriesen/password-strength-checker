@@ -6,7 +6,7 @@
 # Optional: Enhanced testing tools
 pytest>=7.0.0          # More powerful testing framework
 pytest-cov>=4.0.0      # Test coverage reporting
-pytest-xdist>=3.0.0    # Parallel tests execution
+pytest-xdist>=3.0.0    # Parallel test execution
 
 # Development tools
 black>=22.0.0           # Code formatting

@@ -1,6 +1,6 @@
 """
-Password Checker Module
-Core password analysis functionality
+Password Checker Module - Intermediate Version
+Core password analysis functionality with OOP design
 
 This module contains the main password analysis logic,
 separated from the user interface for better organization.
@@ -14,7 +14,7 @@ class PasswordChecker:
     Separating logic into a class makes it easier to:
     - Add configuration options
     - Maintain state if needed
-    - Unit tests individual methods
+    - Unit test individual methods
     - Extend functionality
     """
 
